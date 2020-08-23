@@ -1,0 +1,45 @@
+---
+- name: Creates VMs in spoke networks
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Create Srv-workload-01 network interface
+    azure_rm_networkinterface:
+      name: nic-srv-workload-01
+      resource_group: fw-manager
+      virtual_network: Spoke-01
+      subnet_name: Workload-01-SN
+  - name: Create Srv-workload-02 network interface
+    azure_rm_networkinterface:
+      name: nic-srv-workload-02
+      resource_group: fw-manager
+      virtual_network: Spoke-02
+      subnet_name: Workload-02-SN
+  - name: Create srv-workoload-01 virtual machine
+    azure_rm_virtualmachine:
+      name: Srv-workload-01
+      resource_group: fw-manager
+      vm_size: Standard_DS1_v2
+      admin_username: pbadmin
+      admin_password: El!zabeth15!
+      network_interfaces: nic-srv-workload-01
+      os_type: Windows
+      image:
+        offer: WindowsServer
+        publisher: MicrosoftWindowsServer
+        sku: 2019-Datacenter
+        version: latest
+  - name: Create srv-workoload-02 virtual machine
+    azure_rm_virtualmachine:
+      name: Srv-workload-02
+      resource_group: fw-manager
+      vm_size: Standard_DS1_v2
+      admin_username: pbadmin
+      admin_password: El!zabeth15!
+      network_interfaces: nic-srv-workload-02
+      os_type: Windows
+      image:
+        offer: WindowsServer
+        publisher: MicrosoftWindowsServer
+        sku: 2019-Datacenter
+        version: latest
