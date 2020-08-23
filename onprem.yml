@@ -29,3 +29,39 @@
       resource_group: onpremrg
       virtual_network: onprem01vnet
       address_prefix: 192.168.1.0/24
+  - name: Create public IP address for VPN gateway
+    azure_rm_publicipaddress:
+      resource_group: onpremrg
+      name: onpremvpnpip
+      allocation_method: dynamic
+  - name: Create virtual network gateway
+    azure_rm_virtualnetworkgateway:
+      resource_group: onpremrg
+      name: onpremvng
+      sku: VpnGw1
+      ip_configurations:
+        - name: vpnipconfiguration
+          private_ip_allocation_method: Dynamic
+          public_ip_address_name: onpremvpnpip
+      virtual_network: onprem01vnet
+  - name: Create Onprem-01 network interface
+    azure_rm_networkinterface:
+      name: nic-onprem-01
+      resource_group: onpremrg
+      virtual_network: onprem01vnet
+      subnet_name: Workload-01-SN
+  - name: Create onprem-01 virtual machine
+    azure_rm_virtualmachine:
+      name: Onprem-01
+      resource_group: onpremrg
+      vm_size: Standard_DS1_v2
+      admin_username: pbadmin
+      admin_password: El!zabeth15!
+      network_interfaces: nic-onprem-01
+      os_type: Windows
+      image:
+        offer: WindowsServer
+        publisher: MicrosoftWindowsServer
+        sku: 2019-Datacenter
+        version: latest
+

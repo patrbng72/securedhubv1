@@ -35,3 +35,8 @@ $NetRule1 = New-AzFirewallPolicyNetworkRule -Name $netrulename -Protocol TCP -So
 # Apply collections to firewall
 
 Set-AzFirewallPolicyRuleCollectionGroup -Name $Azfw -ResourceGroupName $rg -FirewallPolicyName $policyname -Priority 100 -RuleCollection $NatRuleCollection, $AppRuleCollection
+
+# Need to associate Policy to firewall
+
+# Need to associate firewall with hub and spokes
+
