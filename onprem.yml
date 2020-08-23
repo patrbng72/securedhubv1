@@ -1,0 +1,31 @@
+---
+- name: Create on prem environment
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Create resource group
+    azure_rm_resourcegroup:
+      name: onpremrg
+      location: southcentralus
+      tags:
+        CreatedBy: "Patrick Bingham"
+        CreatedOn: "8/21/2020"
+        Environment: "Lab"
+        Purpose: "Infrastructure"
+  - name: Create onprem01vnet virtual network
+    azure_rm_virtualnetwork:
+      name: onprem01vnet
+      resource_group: onpremrg
+      address_prefixes: "192.168.0.0/16"
+  - name: Create Gateway subnet
+    azure_rm_subnet:
+      name: GatewaySubnet
+      resource_group: onpremrg
+      virtual_network: onprem01vnet
+      address_prefix: 192.168.0.0/24
+  - name: Create Workload-01 subnet
+    azure_rm_subnet:
+      name: Workload-01-SN
+      resource_group: onpremrg
+      virtual_network: onprem01vnet
+      address_prefix: 192.168.1.0/24
