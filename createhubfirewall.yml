@@ -1,0 +1,10 @@
+---
+- name: Creates firewall for virtual wan hub-01
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Create hub-01 firewall
+    azure_rm_azurefirewall:
+      resource_group: fw-manager
+      name: Hub-01fw
+      
