@@ -33,4 +33,16 @@
       name: Workload-02-SN
       resource_group: fw-manager
       virtual_network: Spoke-02
-      address_prefix: 10.2.1.0/24 
+      address_prefix: 10.2.1.0/24
+  - name: Create Spoke-01 AzureFirewallManagementSubnet subnet
+    azure_rm_subnet:
+      name: AzureFirewallManagementSubnet
+      resource_group: fw-manager
+      virtual_network: Spoke-01
+      address_prefix: 10.1.2.0/24
+  - name: Create Spoke-01 AzureFirewallSubnet subnet
+    azure_rm_subnet:
+      name: AzureFirewallSubnet
+      resource_group: fw-manager
+      virtual_network: Spoke-01
+      address_prefix: 10.1.0.0/24

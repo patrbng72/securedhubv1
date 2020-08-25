@@ -1,0 +1,46 @@
+---
+- name: Create pblab environment
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Create resource group
+    azure_rm_resourcegroup:
+      name: pblabrg
+      location: eastus
+      tags:
+        CreatedBy: "Patrick Bingham"
+        CreatedOn: "8/21/2020"
+        Environment: "Lab"
+        Purpose: "Infrastructure"
+  - name: Create pblabvnet virtual network
+    azure_rm_virtualnetwork:
+      name: pblabvnet
+      resource_group: pblabrg
+      address_prefixes: "172.16.0.0/16"
+  - name: Create Workload-03 subnet
+    azure_rm_subnet:
+      name: Workload-03-SN
+      resource_group: pblabrg
+      virtual_network: pblabvnet
+      address_prefix: 172.16.1.0/24
+  - name: Create pblab-01 network interface
+    azure_rm_networkinterface:
+      name: nic-pblab-01
+      resource_group: pblabrg
+      virtual_network: pblabvnet
+      subnet_name: Workload-03-SN
+  - name: Create pblab-01 virtual machine
+    azure_rm_virtualmachine:
+      name: pblab-01
+      resource_group: pblabrg
+      vm_size: Standard_DS1_v2
+      admin_username: pbadmin
+      admin_password: El!zabeth15!
+      network_interfaces: nic-pblab-01
+      os_type: Windows
+      image:
+        offer: WindowsServer
+        publisher: MicrosoftWindowsServer
+        sku: 2019-Datacenter
+        version: latest
+
