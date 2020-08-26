@@ -5,12 +5,12 @@
   tasks:
   - name: Delete onpremrg
     azure_rm_resourcegroup:
-    name: onpremrg
-    force_delete_nonempty: yes
-    state: absent
-  - name: Delete onpremrg
+      name: onpremrg
+      force_delete_nonempty: yes
+      state: absent
+  - name: Delete fw-manager
     azure_rm_resourcegroup:
-    name: fw-manager
-    force_delete_nonempty: yes
-    state: absent
+      name: fw-manager
+      force_delete_nonempty: yes
+      state: absent
   
